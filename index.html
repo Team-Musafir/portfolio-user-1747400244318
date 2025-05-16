@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{parsedData.name}} | Professional Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --accent-blue: #00a8ff;
+            --accent-purple: #9c27b0;
+            --glass-dark: rgba(30, 30, 30, 0.7);
+            --glass-light: rgba(255, 255, 255, 0.05);
+            --shadow-glow: 0 0 15px rgba(0, 168, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Space Mono', monospace;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+
+        .hero-title span {
+            color: var(--accent-blue);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background-color: var(--glass-dark);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-light);
+        }
+
+        .skill-bar {
+            height: 8px;
+            background-color: var(--glass-light);
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 4px;
+        }
+
+        /* Experience & Projects */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .project-card {
+            background-color: var(--glass-dark);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-light);
+        }
+
+        /* Contact Section */
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">{{parsedData.name || 'Portfolio'}}</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">Hi, I'm <span>{{parsedData.name}}</span></h1>
+            {{#if parsedData.jobRole}}
+            <h2>{{parsedData.jobRole}}</h2>
+            {{/if}}
+            {{#if parsedData.about}}
+            <p>{{parsedData.about}}</p>
+            {{/if}}
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    {{#if parsedData.skills}}
+    <section id="skills">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                {{#each parsedData.skills}}
+                <div class="skill-card">
+                    <h3>{{@key}}</h3>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: {{this}}%"></div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
+    <!-- Experience Section -->
+    {{#if parsedData.experience}}
+    <section id="experience">
+        <div class="container">
+            <h2>Experience</h2>
+            <div class="projects-grid">
+                {{#each parsedData.experience}}
+                <div class="project-card">
+                    <h3>{{company}}</h3>
+                    <p><strong>{{position}}</strong></p>
+                    <p>{{startDate}} - {{endDate}}</p>
+                    <p>{{description}}</p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
+    <!-- Projects Section -->
+    {{#if parsedData.projects}}
+    <section id="projects">
+        <div class="container">
+            <h2>Projects</h2>
+            <div class="projects-grid">
+                {{#each parsedData.projects}}
+                <div class="project-card">
+                    <h3>Inzamamul Haque</h3>
+                    <p>{{description}}</p>
+                    {{#if technologies}}
+                    <div>
+                        {{#each technologies}}
+                        <span>{{this}}</span>
+                        {{/each}}
+                    </div>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </section>
+    {{/if}}
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            {{#if parsedData.email}}
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <span>{{parsedData.email}}</span>
+            </div>
+            {{/if}}
+            {{#if parsedData.phone}}
+            <div class="contact-item">
+                <i class="fas fa-phone"></i>
+                <span>{{parsedData.phone}}</span>
+            </div>
+            {{/if}}
+            {{#if parsedData.socialLinks}}
+            <div class="social-links">
+                {{#if parsedData.socialLinks.github}}
+                <a href="{{parsedData.socialLinks.github}}" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+                {{/if}}
+                {{#if parsedData.socialLinks.linkedin}}
+                <a href="{{parsedData.socialLinks.linkedin}}" target="_blank">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                {{/if}}
+            </div>
+            {{/if}}
+        </div>
+    </section>
+
+    <script>
+        // Dynamic content handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide empty sections
+            document.querySelectorAll('section').forEach(section => {
+                const content = section.querySelector('.container');
+                if (content && content.children.length <= 1) {
+                    section.style.display = 'none';
+                }
+            });
+
+            // Animate skill bars
+            const skillBars = document.querySelectorAll('.skill-progress');
+            skillBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
